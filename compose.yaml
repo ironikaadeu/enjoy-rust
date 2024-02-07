@@ -1,0 +1,29 @@
+services:
+  web:
+    build: .
+    container_name: enjoy-rust-web
+    ports:
+      - "80:8080"
+    tty: true
+    volumes:
+      - .:/usr/src/myapp
+    networks:
+      - enjoy_rust_network
+    command: cargo run
+  mysql:
+      image: mysql:8.0
+      container_name: enjoy-rust-mysql
+      ports:
+        - "3306:3306"
+      volumes:
+        - ./mysql:/var/lib/mysql
+      environment:
+        MYSQL_ROOT_PASSWORD: root_password
+        MYSQL_DATABASE: enjoy_rust_development
+        MYSQL_USER: user
+        MYSQL_PASSWORD: password
+      networks:
+        - enjoy_rust_network
+networks:
+  enjoy_rust_network:
+    external: true
